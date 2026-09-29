@@ -11,13 +11,17 @@ function getStorageDirectory() {
   return storageDirectory;
 }
 
-function createDocument(document) {
-  documents.set(document.id, document);
+function cloneDocument(document) {
   return { ...document };
 }
 
+function createDocument(document) {
+  documents.set(document.id, document);
+  return cloneDocument(document);
+}
+
 function listDocuments() {
-  return Array.from(documents.values()).map((document) => ({ ...document }));
+  return Array.from(documents.values()).map(cloneDocument);
 }
 
 function findDocumentById(id) {
@@ -27,7 +31,7 @@ function findDocumentById(id) {
     return null;
   }
 
-  return { ...document };
+  return cloneDocument(document);
 }
 
 module.exports = {

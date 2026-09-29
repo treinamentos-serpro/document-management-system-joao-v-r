@@ -1,8 +1,17 @@
 const documentService = require('../services/documentService');
 
+function toUploadedFileDto(file) {
+  return {
+    originalName: file.originalname,
+    size: file.size,
+    path: file.path,
+  };
+}
+
 function uploadDocument(req, res) {
   try {
-    const document = documentService.createDocumentRecord(req.file, req.body.owner);
+    const file = req.file ? toUploadedFileDto(req.file) : null;
+    const document = documentService.createDocumentRecord({ file, owner: req.body.owner });
     return res.status(201).json(document);
   } catch (error) {
     return res.status(error.statusCode || 500).json({

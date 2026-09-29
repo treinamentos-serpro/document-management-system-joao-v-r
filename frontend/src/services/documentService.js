@@ -20,7 +20,9 @@ async function request(path, options = {}) {
   const data = await parseResponse(response);
 
   if (!response.ok) {
-    const message = typeof data === 'string' ? data : data?.message || 'Erro ao processar a requisição.';
+    const message = typeof data === 'string'
+      ? data
+      : data?.message || 'Erro ao processar a requisição.';
     throw new Error(message);
   }
 
